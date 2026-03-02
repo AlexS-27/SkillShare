@@ -1,0 +1,25 @@
+{
+  "name": "skillshare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexS-27/SkillShare.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AlexS-27/SkillShare/issues"
+  },
+  "homepage": "https://github.com/AlexS-27/SkillShare#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
