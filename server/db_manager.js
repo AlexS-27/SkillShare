@@ -12,10 +12,17 @@ require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 const bcrypt = require('bcrypt');
 
-// Remplace par tes vraies infos (idéalement via des variables d'environnement .env)
+// Connexion to Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_API_SERVICE_ROLE;
 const supabase = createClient(supabaseUrl, supabaseKey);
+
+/**
+ * Hashed the password, test the connexion to the database then post
+ * @param {string} password
+ * @param {string} name
+ * @returns {[boolean, string]} A table with the status and the message
+ */
 
 const register = async (name, password) => {
 
@@ -23,21 +30,20 @@ const register = async (name, password) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     try {
-        // Avec Supabase, on utilise une syntaxe fluide au lieu du SQL brut
         const { data, error } = await supabase
-            .from('utilisateurs') // Nom de ta table dans Supabase
+            .from('utilisateurs') // Indicate the table
             .insert([
                 { pseudo: name, password: hashedPassword }
-            ])
+            ]) // Give the data to the base
             .select();
 
         if (error) throw error;
 
-        console.log("Compte créé avec succès !");
+        console.log("Account registered !");
         return { success: true, data: data };
 
     } catch (err) {
-        console.error("Erreur lors de l'inscription :", err.message);
+        console.error("Error during the inscription :", err.message);
         return { success: false, message: err.message };
     }
 };

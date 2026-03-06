@@ -1,5 +1,14 @@
+/*
+File : server/utils.js
+Description : File for the verifications and security local
+Autor : Alex Kamano
+Version : 1.0
+Project : SkillShare
+Date : 6 Mars 2026
+*/
+
 /**
- * Vérifie si le mot de passe est fort.
+ * Check if the password is strong enough
  * @param {string} password
  * @returns {[boolean, string]} Un tableau contenant le statut et le message.
  */
