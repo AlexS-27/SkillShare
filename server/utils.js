@@ -35,6 +35,8 @@ function isPasswordStrong(password) {
     return [true, "Password is valid"];
 }
 
+module.exports = { isPasswordStrong };
+
 // --- Exemple ---
 const [isValid, message] = isPasswordStrong("MonMotDePasse123!");
 console.log(isValid); // true
