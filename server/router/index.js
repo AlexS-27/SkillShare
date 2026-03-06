@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const { register } = require('./db_manager'); // Import de ton fichier
-const { isPasswordStrong } = require('./utils.js');
+const { register } = require('../db_manager'); // Import de ton fichier
+const { isPasswordStrong } = require('../utils.js');
 
 app.use(cors());
 app.use(express.json());
