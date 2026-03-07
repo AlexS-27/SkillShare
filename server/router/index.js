@@ -10,7 +10,7 @@ Date : 6 Mars 2026
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const { register } = require('../db_manager');
+const { register, login } = require('../db_manager');
 const { isPasswordStrong } = require('../utils.js');
 
 app.use(cors());
@@ -43,6 +43,29 @@ app.post('/register', async (req, res) => {
         res.status(201).json(result);
     } else {
         res.status(400).json(result);
+    }
+});
+
+/**
+ * Check if the fileds aren't empty then post the data to supabase and return the pseudo, sold and id
+ * @param {string} password
+ * @param {string} name
+ * @returns {[boolean, string]} A table with the status and the message
+ */
+
+app.post('/login', async (req, res) => {
+    const { name, password } = req.body;
+
+    if (!name || !password) {
+        return res.status(400).json({success: false, message: "Missing required fields"});
+    }
+
+    const result = await login(name, password);
+
+    if (result.success) {
+        res.status(201).json(result);
+    } else {
+        res.status(401).json(result); // Unauthorized connexion
     }
 });
 
