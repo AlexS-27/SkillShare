@@ -1,0 +1,366 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: My first collection
+meta:
+  id: wrk_64b99341d4c84b1cb918a9fb8866ccd0
+  created: 1767966594331
+  modified: 1772816525460
+  description: ""
+collection:
+  - name: SkillShare
+    meta:
+      id: fld_6aade0ce4ac0482fa78738846512ffff
+      created: 1772816606338
+      modified: 1772816611549
+      sortKey: -1772816606338
+      description: ""
+    children:
+      - name: Test_password
+        meta:
+          id: fld_21d5eeda922c418eb8c9c62468344704
+          created: 1772818649713
+          modified: 1772818669238
+          sortKey: -1772818649713
+          description: ""
+        children:
+          - url: "{{ base_url }}/register"
+            name: Too short
+            meta:
+              id: req_859728d145124d1d881d6a886b07e5bd
+              created: 1772816612838
+              modified: 1772879890163
+              isPrivate: false
+              description: ""
+              sortKey: -1772818661716
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": "lol"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/register"
+            name: At least one Uppercase
+            meta:
+              id: req_510f960c147d43fa9fa14ced31ecea34
+              created: 1772818707101
+              modified: 1772879883786
+              isPrivate: false
+              description: ""
+              sortKey: -1772818707101
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": "lollollo"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/register"
+            name: At least one Number
+            meta:
+              id: req_29be3c7ef2fb44518e76925929547e33
+              created: 1772818778470
+              modified: 1772879879791
+              isPrivate: false
+              description: ""
+              sortKey: -1772818778470
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": "Lollollo"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/register"
+            name: At leats one special character
+            meta:
+              id: req_41dd36306e794b3896d4ed32132d7624
+              created: 1772818829157
+              modified: 1772879872364
+              isPrivate: false
+              description: ""
+              sortKey: -1772818829157
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": "Lolloll8"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/register"
+            name: All good
+            meta:
+              id: req_09fabaca3fe249218a29c44a43d32ac3
+              created: 1772818888187
+              modified: 1772879862251
+              isPrivate: false
+              description: ""
+              sortKey: -1772818888187
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": "Lollol8!"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Test_Login
+        meta:
+          id: fld_b54ffbfb8dc74401ad102373ba65e75f
+          created: 1772876155235
+          modified: 1772877319748
+          sortKey: -1772876155235
+          description: ""
+        children:
+          - url: "{{ base_url }}/login"
+            name: All good
+            meta:
+              id: req_af843065b0a8483083b02ae895fc8af0
+              created: 1772876160740
+              modified: 1772879818849
+              isPrivate: false
+              description: ""
+              sortKey: -1772876160740
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": "Lollol8!"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/login"
+            name: Missing name field
+            meta:
+              id: req_0d8a5e5890c04a37be9f27691918a082
+              created: 1772877326506
+              modified: 1772879826767
+              isPrivate: false
+              description: ""
+              sortKey: -1772877326506
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "",
+                    "password": "Lollol8!"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/login"
+            name: Missing password filed
+            meta:
+              id: req_1870deed7b664cb599ad6306e0db3e3c
+              created: 1772877375491
+              modified: 1772879830706
+              isPrivate: false
+              description: ""
+              sortKey: -1772877375491
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": ""
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/login"
+            name: Wrong password
+            meta:
+              id: req_e6f2e777bef842fb92384b600e452d50
+              created: 1772877427424
+              modified: 1772879844387
+              isPrivate: false
+              description: ""
+              sortKey: -1772877427424
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": "Lollol!"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/login"
+            name: Wrong pseudo
+            meta:
+              id: req_b2690090582b40149b780e5481e0e809
+              created: 1772877469408
+              modified: 1772879849668
+              isPrivate: false
+              description: ""
+              sortKey: -1772877427524
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex27",
+                    "password": "Lollol8!"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_95f1f970ae41db7a1737e1c44f1313e96aa7b657
+    created: 1772816525478
+    modified: 1772816525478
+environments:
+  name: Base Environment
+  meta:
+    id: env_95f1f970ae41db7a1737e1c44f1313e96aa7b657
+    created: 1767966594334
+    modified: 1772816525460
+    isPrivate: false
