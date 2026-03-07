@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
+node_modules/
+client/node_modules/
+server/node_modules/
 
 # testing
 /coverage
@@ -18,15 +21,17 @@
 # misc
 .DS_Store
 *.pem
+Thumbs.db
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.eslintcache
 
 # local env files
 .env*.local
-.env
+server/router/.env
 
 # vercel
 .vercel
@@ -38,3 +43,15 @@ next-env.d.ts
 # idea
 .idea
 .idea/
+
+# --- SECURITY (Most important) ---
+.env
+.env.local
+.env.*.local
+server/.env
+client/.env
+
+# --- BUILDS ---
+dist/
+client/dist/
+

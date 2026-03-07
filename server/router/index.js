@@ -12,9 +12,29 @@ const cors = require('cors');
 const app = express();
 const { register, login } = require('../db_manager');
 const { isPasswordStrong } = require('../utils.js');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
-app.use(cors());
+// --- SECURITY (OWASP)
+
+// Security Brut Force
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 min.
+    max: 5, // Limit at 5 attemps for an IP
+    message: "Too many login attempts. Please try again in 15 minutes."
+});
+
+app.use(helmet()); // Protection against the failures HTTP
+
+const corsOptions = {
+    origin: 'http://localhost:5173', // Only the frontend is authorized to do actions
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
+
+// --- Routes ---
 
 app.get('/api/hello', (req, res) => {
     res.json({ message: 'Hello from Express!' });
@@ -53,7 +73,7 @@ app.post('/register', async (req, res) => {
  * @returns {[boolean, string]} A table with the status and the message
  */
 
-app.post('/login', async (req, res) => {
+app.post('/login', loginLimiter,async (req, res) => {
     const { name, password } = req.body;
 
     if (!name || !password) {
