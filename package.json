@@ -1,32 +1,16 @@
 {
   "name": "skillshare",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Monorepo SkillShare - Projet Fullstack",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\""
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
+    "lint": "cd client && npm run lint",
+    "build": "cd client && npm run build",
+    "test": "echo \"Pas encore de tests unitaires\" && exit 0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlexS-27/SkillShare.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/AlexS-27/SkillShare/issues"
-  },
-  "homepage": "https://github.com/AlexS-27/SkillShare#readme",
   "devDependencies": {
-    "concurrently": "^9.2.1",
-    "nodemon": "^3.1.14"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.98.0",
-    "bcrypt": "^6.0.0",
-    "express-rate-limit": "^8.3.0",
-    "helmet": "^8.1.0"
+    "concurrently": "^9.2.1"
   }
 }

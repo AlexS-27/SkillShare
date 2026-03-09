@@ -1,0 +1,35 @@
+name: SkillShare CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-and-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Check SERVER
+      - name: Server Security Audit
+        run: |
+          cd server
+          npm install
+          npm audit --audit-level=high
+
+      # Check CLIENT
+      - name: Client Lint & Build
+        run: |
+          cd client
+          npm install
+          npm run lint
+          npm run build
