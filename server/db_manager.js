@@ -14,7 +14,7 @@ const bcrypt = require('bcrypt');
 
 // Connexion to Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_API_SERVICE_ROLE;
+const supabaseKey = process.env.SUPABASE_API_ANON_PUBLIC;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 /**
