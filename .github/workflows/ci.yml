@@ -25,6 +25,7 @@ jobs:
           cd server
           npm install
           npm audit --audit-level=high
+          npm test
 
       # Check CLIENT
       - name: Client Lint & Build
