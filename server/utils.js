@@ -64,7 +64,7 @@ export function loadBlacklist() {
 
 //check if the password is clean
 export function isUsernameSafe(name) {
-    const lowerUsername = username.toLowerCase();
+    const lowerUsername = name.toLowerCase();
     const blacklist = loadBlacklist();
 
     for (const badWord of blacklist) {
@@ -80,7 +80,7 @@ export function isUsernameSafe(name) {
 // Check the format of the password
 export function isUsernameFormatValid(name) {
     const pattern = /^[a-zA-Z0-9_éèàêëîïôûùÇç]{3,20}$/;
-    if (!pattern.test(username)) {
+    if (!pattern.test(name)) {
         return [false, "The username need to be between 3 and 20 characters long and contain only letters, numbers, or underscore"];
     }
     return [true, "Username format is valid"];
