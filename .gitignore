@@ -45,7 +45,7 @@ next-env.d.ts
 .idea/
 
 # --- SECURITY (Most important) ---
-.env
+server/router/.env
 .env.local
 .env.*.local
 server/.env
