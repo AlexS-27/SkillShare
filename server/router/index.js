@@ -6,14 +6,16 @@ Version : 1.0
 Project : SkillShare
 Date : 6 Mars 2026
 */
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
-const express = require('express');
-const cors = require('cors');
-const app = express();
-const { register, login } = require('../db_manager');
-const { isPasswordStrong } = require('../utils.js');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+// Importation de tes fichiers locaux (N'oublie jamais l'extension .js !)
+import { register, login } from '../db_manager.js';
+import { isPasswordStrong } from '../utils.js';
+
+const app = express(); // Initialisation correcte d'express
 
 // --- SECURITY (OWASP)
 

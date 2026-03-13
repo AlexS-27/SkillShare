@@ -95,8 +95,3 @@ export function isPseudoCorrect(name) {
 
     return [true, "Username valid"];
 }
-
-// --- Exemple ---
-const [isValid, message] = isPasswordStrong("MonMotDePasse123!");
-console.log(isValid); // true
-console.log(message); // "Password is valid"

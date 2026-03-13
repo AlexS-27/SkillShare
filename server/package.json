@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "router/index.js",
+  "type": "module",
   "scripts": {
-    "test": "npx vitest run",
+    "test": "vitest run",
     "start": "node router/index.js",
     "dev": "nodemon router/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@supabase/supabase-js": "^2.98.0",
     "bcrypt": "^6.0.0",

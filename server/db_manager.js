@@ -7,10 +7,9 @@ Version : 1.0
 Project : SkillShare
 Date : 6 Mars 2026
 */
-require('dotenv').config();
-
-const { createClient } = require('@supabase/supabase-js');
-const bcrypt = require('bcrypt');
+import 'dotenv/config'; // Raccourci moderne pour require('dotenv').config()
+import { createClient } from '@supabase/supabase-js';
+import bcrypt from 'bcrypt';
 
 // Connexion to Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -24,7 +23,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
  * @returns {[boolean, string]} A table with the status and the message
  */
 
-const register = async (name, password) => {
+export const register = async (name, password) => {
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -55,7 +54,7 @@ const register = async (name, password) => {
  * @returns {[boolean, string]} A table with the status and the message
  */
 
-const login = async (name, password) => {
+export const login = async (name, password) => {
     try {
         // 1.  Get the user in the supabase by his name
         const { data: user, error } = await supabase
@@ -84,9 +83,4 @@ const login = async (name, password) => {
         console.log("Login Error :",err.message);
         return { success: false, message: " Error during the inscription " };
     }
-};
-
-module.exports = {
-    register,
-    login
 };
