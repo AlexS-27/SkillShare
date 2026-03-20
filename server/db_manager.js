@@ -92,7 +92,7 @@ export const login = async (name, password) => {
  * @param {string} serviceId - UUID of the service (id_service)
  * @returns {Object} { success: boolean, data?: { transaction, buyer_balance }, message?: string }
  */
-const purchaseService = async (buyerId, serviceId) => {
+export const purchaseService = async (buyerId, serviceId) => {
     try {
         // check if the service exists and is active
         const { data: service, error: serviceError } = await supabase

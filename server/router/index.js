@@ -12,7 +12,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 
 // Importation de tes fichiers locaux (N'oublie jamais l'extension .js !)
-import { register, login } from '../db_manager.js';
+import { register, login, purchaseService } from '../db_manager.js';
 import { isPasswordStrong } from '../utils.js';
 
 const app = express(); // Initialisation correcte d'express
@@ -90,6 +90,37 @@ app.post('/login', loginLimiter,async (req, res) => {
         res.status(201).json(result);
     } else {
         res.status(401).json(result); // Unauthorized connexion
+    }
+});
+
+/**
+ * Route pour l'achat d'un service
+ * @param {string|number} buyerId - L'ID de l'acheteur
+ * @param {string|number} serviceId - L'ID du service à acheter
+ * @param {number} price - Le prix du service (optionnel, selon comment ta DB gère ça)
+ */
+app.post('/api/purchase', async (req, res) => {
+    const { buyerId, serviceId } = req.body; // Le prix est géré en interne par purchaseService
+
+    if (!buyerId || !serviceId) {
+        return res.status(400).json({
+            success: false,
+            message: "Missing required fields (buyerId, serviceId)"
+        });
+    }
+
+    try {
+        // On utilise bien purchaseService (le nom exporté de db_manager)
+        const result = await purchaseService(buyerId, serviceId);
+
+        if (result.success) {
+            res.status(200).json(result);
+        } else {
+            res.status(400).json(result);
+        }
+    } catch (error) {
+        console.error("Erreur lors de l'achat :", error);
+        res.status(500).json({ success: false, message: "Internal server error during purchase" });
     }
 });
 
