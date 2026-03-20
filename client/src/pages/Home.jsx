@@ -12,12 +12,48 @@ export default function Home() {
         { id: 6, vendeur: 'Lucas Petit', description: 'Développement d\'applications mobiles iOS et Android', prix: 60 },
     ];
 
-    const handleAcheter = () => {
-        // Vérifier si l'utilisateur est connecté avant l'achat
-        if (!localStorage.getItem('user')) {
+    const handleAcheter = async (serviceId) => {
+        // 1. Récupérer l'utilisateur stocké lors du login
+        const userString = localStorage.getItem('user');
+
+        if (!userString) {
+            alert("Vous devez être connecté pour acheter un service.");
             navigate('/login');
-        } else {
-            alert("Fonctionnalité d'achat à implémenter !");
+            return;
+        }
+
+        const user = JSON.parse(userString);
+        const buyerId = user.id_user; // On récupère l'ID de l'acheteur
+
+        // 2. Appel à l'API
+        try {
+            const response = await fetch('http://localhost:3000/api/purchase', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    buyerId: buyerId,
+                    serviceId: serviceId
+                }),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert(`Achat réussi ! Nouveau solde : ${result.data.buyer_balance} jetons.`);
+
+                // Optionnel : Mettre à jour le solde dans le localStorage
+                user.balance = result.data.buyer_balance;
+                localStorage.setItem('user', JSON.stringify(user));
+
+                // Forcer un rafraîchissement ou rediriger vers le profil
+            } else {
+                alert(`Erreur : ${result.message}`);
+            }
+        } catch (error) {
+            console.error("Erreur connexion API :", error);
+            alert("Impossible de contacter le serveur.");
         }
     };
 
@@ -43,7 +79,7 @@ export default function Home() {
                             <td className="p-4 text-gray-800">{service.prix}</td>
                             <td className="p-4">
                                 <button
-                                    onClick={handleAcheter}
+                                    onClick={() => handleAcheter(service.id)}
                                     className="bg-[#0b0f19] text-white px-4 py-2 rounded-md font-medium text-xs hover:bg-gray-800 transition-colors"
                                 >
                                     Acheter
