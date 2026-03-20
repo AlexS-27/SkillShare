@@ -5,13 +5,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Account from './pages/Account';
 
+// client/src/App.jsx
 const ProtectedRoute = ({ children }) => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-        // Si pas d'utilisateur dans le storage, on redirige vers le login
+    const token = localStorage.getItem('token');
+    if (!token) {
         return <Navigate to="/login" replace />;
     }
-
     return children;
 };
 

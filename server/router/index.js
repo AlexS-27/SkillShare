@@ -19,8 +19,6 @@ const app = express(); // Initialisation correcte d'express
 
 // --- SECURITY (OWASP)
 
-
-
 // Security Brut Force
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 min.
@@ -39,11 +37,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // --- Routes ---
-
-app.get('/api/hello', (req, res) => {
-    res.json({ message: 'Hello from Express!' });
-});
-
 /**
  * Check if the password is correct then post the data
  * @param {string} password

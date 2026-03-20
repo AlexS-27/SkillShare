@@ -79,6 +79,17 @@ export const login = async (name, password) => {
             return { success: false, message: "User or password incorrect" };
         }
 
+        if (isMatch) {
+            const token = jwt.sign(
+                { id: user.id_user, pseudo: user.pseudo },
+                process.env.JWT_SECRET || 'ta_cle_secrete_super_secure',
+                { expiresIn: '24h' }
+            );
+
+            delete user.password;
+            return { success: true, data: user, token: token };
+        }
+
     } catch (err) {
         console.log("Login Error :",err.message);
         return { success: false, message: " Error during the inscription " };
