@@ -32,6 +32,7 @@ export default function Register() {
                 setError(data.message || 'Erreur lors de l\'inscription');
             }
         } catch (err) {
+            console.log(err);
             setError('Erreur réseau.');
         }
     };

@@ -28,6 +28,7 @@ export default function Login() {
                 setError(data.message || 'Erreur de connexion');
             }
         } catch (err) {
+            console.log(err);
             setError('Erreur réseau. Le serveur est-il lancé ?');
         }
     };
