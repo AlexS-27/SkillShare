@@ -1,10 +1,10 @@
 type: collection.insomnia.rest/5.0
 schema_version: "5.1"
-name: My first collection
+name: SkillShare
 meta:
   id: wrk_64b99341d4c84b1cb918a9fb8866ccd0
   created: 1767966594331
-  modified: 1772816525460
+  modified: 1772894840350
   description: ""
 collection:
   - name: SkillShare
@@ -28,7 +28,7 @@ collection:
             meta:
               id: req_859728d145124d1d881d6a886b07e5bd
               created: 1772816612838
-              modified: 1772879890163
+              modified: 1774860153607
               isPrivate: false
               description: ""
               sortKey: -1772818661716
@@ -60,7 +60,7 @@ collection:
             meta:
               id: req_510f960c147d43fa9fa14ced31ecea34
               created: 1772818707101
-              modified: 1772879883786
+              modified: 1774860199602
               isPrivate: false
               description: ""
               sortKey: -1772818707101
@@ -70,7 +70,7 @@ collection:
               text: |-
                 {
                     "name": "Alex",
-                    "password": "lollollo"
+                    "password": "lollollohd"
                 }
             headers:
               - name: Content-Type
@@ -92,7 +92,7 @@ collection:
             meta:
               id: req_29be3c7ef2fb44518e76925929547e33
               created: 1772818778470
-              modified: 1772879879791
+              modified: 1774860147071
               isPrivate: false
               description: ""
               sortKey: -1772818778470
@@ -102,7 +102,7 @@ collection:
               text: |-
                 {
                     "name": "Alex",
-                    "password": "Lollollo"
+                    "password": "LollolloHd"
                 }
             headers:
               - name: Content-Type
@@ -124,7 +124,7 @@ collection:
             meta:
               id: req_41dd36306e794b3896d4ed32132d7624
               created: 1772818829157
-              modified: 1772879872364
+              modified: 1774860148890
               isPrivate: false
               description: ""
               sortKey: -1772818829157
@@ -134,7 +134,7 @@ collection:
               text: |-
                 {
                     "name": "Alex",
-                    "password": "Lolloll8"
+                    "password": "Lolloll8Hd"
                 }
             headers:
               - name: Content-Type
@@ -156,7 +156,7 @@ collection:
             meta:
               id: req_09fabaca3fe249218a29c44a43d32ac3
               created: 1772818888187
-              modified: 1772879862251
+              modified: 1774860128431
               isPrivate: false
               description: ""
               sortKey: -1772818888187
@@ -166,13 +166,45 @@ collection:
               text: |-
                 {
                     "name": "Alex",
-                    "password": "Lollol8!"
+                    "password": "Lollol8!Hd"
                 }
             headers:
               - name: Content-Type
                 value: application/json
               - name: User-Agent
                 value: insomnia/12.3.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ base_url }}/register"
+            name: At least one lowercase
+            meta:
+              id: req_a6e4ace57f044453bfbfade77474efe1
+              created: 1774860164337
+              modified: 1774860217781
+              isPrivate: false
+              description: ""
+              sortKey: -1772818888287
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                    "name": "Alex",
+                    "password": "LOLLOLLOHD"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
                 description: ""
                 disabled: false
             settings:
@@ -196,7 +228,7 @@ collection:
             meta:
               id: req_af843065b0a8483083b02ae895fc8af0
               created: 1772876160740
-              modified: 1772879818849
+              modified: 1774858281011
               isPrivate: false
               description: ""
               sortKey: -1772876160740
@@ -206,7 +238,7 @@ collection:
               text: |-
                 {
                     "name": "Alex",
-                    "password": "Lollol8!"
+                    "password": "Lollol8!Hd"
                 }
             headers:
               - name: Content-Type
@@ -228,7 +260,7 @@ collection:
             meta:
               id: req_0d8a5e5890c04a37be9f27691918a082
               created: 1772877326506
-              modified: 1772879826767
+              modified: 1774860260311
               isPrivate: false
               description: ""
               sortKey: -1772877326506
@@ -238,7 +270,7 @@ collection:
               text: |-
                 {
                     "name": "",
-                    "password": "Lollol8!"
+                    "password": "Lollol8!Hd"
                 }
             headers:
               - name: Content-Type
@@ -260,7 +292,7 @@ collection:
             meta:
               id: req_1870deed7b664cb599ad6306e0db3e3c
               created: 1772877375491
-              modified: 1772879830706
+              modified: 1774860263965
               isPrivate: false
               description: ""
               sortKey: -1772877375491
@@ -292,7 +324,7 @@ collection:
             meta:
               id: req_e6f2e777bef842fb92384b600e452d50
               created: 1772877427424
-              modified: 1772879844387
+              modified: 1774860265516
               isPrivate: false
               description: ""
               sortKey: -1772877427424
@@ -324,7 +356,7 @@ collection:
             meta:
               id: req_b2690090582b40149b780e5481e0e809
               created: 1772877469408
-              modified: 1772879849668
+              modified: 1774860272447
               isPrivate: false
               description: ""
               sortKey: -1772877427524
@@ -334,7 +366,7 @@ collection:
               text: |-
                 {
                     "name": "Alex27",
-                    "password": "Lollol8!"
+                    "password": "Lollol8!Hd"
                 }
             headers:
               - name: Content-Type
