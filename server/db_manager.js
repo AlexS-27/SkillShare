@@ -7,12 +7,13 @@ Version : 1.0
 Project : SkillShare
 Date : 6 Mars 2026
 */
-import 'dotenv/config'; // Raccourci moderne pour require('dotenv').config()
+import 'dotenv/config';
 import { createClient } from '@supabase/supabase-js';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken'; // Ajout de l'import jwt manquant
+import jwt from 'jsonwebtoken';
+import { logInfo, logWarn, logError } from './logger.js';
 
-// Connexion to Supabase
+// connexion to Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_API_ANON_PUBLIC;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -31,10 +32,10 @@ export const register = async (name, password) => {
 
     try {
         const { data, error } = await supabase
-            .from('users') // Indicate the table
+            .from('users') // indicate the table
             .insert([
                 { username: name, password: hashedPassword }
-            ]) // Give the data to the base
+            ]) // give the data to the base
             .select();
 
         if (error) throw error;
@@ -44,6 +45,7 @@ export const register = async (name, password) => {
 
     } catch (err) {
         console.error("Error during the inscription :", err.message);
+        logError('DB_REGISTER_ERROR', `username="${name}" error="${err.message}"`);
         return { success: false, message: err.message };
     }
 };
@@ -57,19 +59,19 @@ export const register = async (name, password) => {
 
 export const login = async (name, password) => {
     try {
-        // 1.  Get the user in the supabase by his name
+        // 1.  get the user in the supabase by his name
         const { data: user, error } = await supabase
             .from('users')
             .select('*')
             .eq('username', name)
-            .single(); // Get one object
+            .single(); // get one object
 
         if (error || !user) {
             return { success: false, message: "User or password incorrect" };
         }
 
-        // 2. Get the password send with the stocked hash
-        // bcrypt get automaticly the salt and the cost of the hash in the DB
+        // 2. get the password send with the stocked hash
+        // bcrypt gets automatically the salt and the cost of the hash in the DB
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (isMatch) {
@@ -88,6 +90,7 @@ export const login = async (name, password) => {
 
     } catch (err) {
         console.log("Login Error :",err.message);
+        logError('DB_LOGIN_ERROR', `username="${name}" error="${err.message}"`);
         return { success: false, message: " Error during the inscription " };
     }
 };
@@ -109,6 +112,7 @@ export const purchaseService = async (buyerId, serviceId) => {
             .single();
 
         if (serviceError || !service) {
+            logWarn('DB_PURCHASE_SERVICE_NOT_FOUND', `buyerId="${buyerId}" serviceId="${serviceId}"`);
             return { success: false, message: "Service not found" };
         }
 
@@ -129,6 +133,7 @@ export const purchaseService = async (buyerId, serviceId) => {
             .single();
 
         if (buyerError || !buyer) {
+            logError('DB_PURCHASE_BUYER_NOT_FOUND', `buyerId="${buyerId}" serviceId="${serviceId}"`);
             return { success: false, message: "Buyer not found" };
         }
 
@@ -147,10 +152,10 @@ export const purchaseService = async (buyerId, serviceId) => {
 
         if (debitError) {
             console.error("Debit error:", debitError.message);
+            logError('DB_PURCHASE_DEBIT_FAIL', `buyerId="${buyerId}" serviceId="${serviceId}" error="${debitError.message}"`);
             return { success: false, message: "Payment failed: could not debit buyer" };
         }
 
-        // credit the seller
         // fetch the seller's current balance
         const { data: seller, error: sellerFetchError } = await supabase
             .from('users')
@@ -165,9 +170,11 @@ export const purchaseService = async (buyerId, serviceId) => {
                 .update({ balance: buyer.balance })
                 .eq('id_user', buyerId);
 
+            logError('DB_PURCHASE_SELLER_NOT_FOUND', `buyerId="${buyerId}" serviceId="${serviceId}" sellerId="${service.id_seller}" — buyer refunded`);
             return { success: false, message: "Payment failed: seller not found, buyer refunded" };
         }
 
+        // credit the seller
         const { error: creditError } = await supabase
             .from('users')
             .update({ balance: seller.balance + service.price })
@@ -181,6 +188,7 @@ export const purchaseService = async (buyerId, serviceId) => {
                 .eq('id_user', buyerId);
 
             console.error("Credit error:", creditError.message);
+            logError('DB_PURCHASE_CREDIT_FAIL', `buyerId="${buyerId}" serviceId="${serviceId}" sellerId="${service.id_seller}" error="${creditError.message}" — buyer refunded`);
             return { success: false, message: "Payment failed: could not credit seller, buyer refunded" };
         }
 
@@ -199,6 +207,9 @@ export const purchaseService = async (buyerId, serviceId) => {
         if (transactionError) {
             // money already moved — log the inconsistency but don't block the response
             console.error("Transaction record error (money already transferred):", transactionError.message);
+            logError('DB_TRANSACTION_RECORD_FAIL',
+                `buyerId="${buyerId}" serviceId="${serviceId}" amount=${service.price} — money transferred but transaction not recorded: ${transactionError.message}`
+            );
         }
 
         console.log(`Purchase successful: buyer ${buyerId} bought service ${serviceId} for ${service.price}`);
@@ -212,6 +223,7 @@ export const purchaseService = async (buyerId, serviceId) => {
 
     } catch (err) {
         console.error("Purchase error:", err.message);
+        logError('DB_PURCHASE_UNEXPECTED_ERROR', `buyerId="${buyerId}" serviceId="${serviceId}" error="${err.message}"`);
         return { success: false, message: "An unexpected error occurred during the purchase" };
     }
 };
