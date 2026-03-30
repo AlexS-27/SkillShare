@@ -14,6 +14,7 @@ import rateLimit from 'express-rate-limit';
 // Importation de tes fichiers locaux (N'oublie jamais l'extension .js !)
 import { register, login, purchaseService } from '../db_manager.js';
 import { isPasswordStrong } from '../utils.js';
+import { verifyToken, tokenBlacklist } from '../middleware/auth.js'; // Import du middleware et de la blacklist
 
 const app = express(); // Initialisation correcte d'express
 
@@ -87,12 +88,27 @@ app.post('/login', loginLimiter,async (req, res) => {
 });
 
 /**
+ * Route pour se déconnecter (invalider le token)
+ */
+app.post('/logout', verifyToken, (req, res) => {
+    // Récupérer le token depuis le header
+    const token = req.headers['authorization']?.split(' ')[1];
+
+    if (token) {
+        // Ajouter le token à la liste noire pour l'invalider
+        tokenBlacklist.add(token);
+    }
+
+    res.status(200).json({ success: true, message: "Déconnexion réussie, token invalidé" });
+});
+
+/**
  * Route pour l'achat d'un service
  * @param {string|number} buyerId - L'ID de l'acheteur
  * @param {string|number} serviceId - L'ID du service à acheter
  * @param {number} price - Le prix du service (optionnel, selon comment ta DB gère ça)
  */
-app.post('/api/purchase', async (req, res) => {
+app.post('/api/purchase', verifyToken, async (req, res) => { // Ajout de verifyToken pour sécuriser l'achat
     const { buyerId, serviceId } = req.body; // Le prix est géré en interne par purchaseService
 
     if (!buyerId || !serviceId) {

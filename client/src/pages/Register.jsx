@@ -26,7 +26,7 @@ export default function Register() {
             const data = await response.json();
 
             if (response.ok && data.success) {
-                localStorage.setItem('user', JSON.stringify(data.data[0]));
+                // localStorage.setItem('user', JSON.stringify(data.data[0]));
                 navigate('/account');
             } else {
                 setError(data.message || 'Erreur lors de l\'inscription');
