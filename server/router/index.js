@@ -12,9 +12,9 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 
 import { register, login, purchaseService } from '../db_manager.js';
-import { isPasswordStrong } from '../utils.js';
 import { logInfo, logWarn, logError } from '../logger.js';
 import { verifyToken, tokenBlacklist } from '../middleware/auth.js'; // Import du middleware et de la blacklist
+import {isPasswordStrong, isUsernameSafe} from '../utils.js';
 
 const app = express(); // express initialisation
 
@@ -52,11 +52,18 @@ app.post('/register', async (req, res) => {
     const { name, password } = req.body;
     const ip = getIp(req);
 
-    // security validation for the password
-    const [isValid, message] = isPasswordStrong(password);
-    if (!isValid) {
-        logWarn('REGISTER_FAIL', `ip=${ip} pseudo="${name}" reason="${message}"`);
-        return res.status(400).json({ success: false, message: message });
+    // 1. Security validation for the password
+    const [isPasswordValid, passwordMessage] = isPasswordStrong(password);
+    if (!isPasswordValid) {
+        logWarn('REGISTER_FAIL', `ip=${ip} pseudo="${name}" reason="${passwordMessage}"`);
+        return res.status(400).json({ success: false, message: passwordMessage });
+    }
+
+    // 2. Security validation for the username
+    const [isUsernameValid, usernameMessage] = isUsernameSafe(name);
+    if (!isUsernameValid) {
+        logWarn('REGISTER_FAIL', `ip=${ip} pseudo="${name}" reason="${usernameMessage}"`);
+        return res.status(400).json({ success: false, message: usernameMessage });
     }
 
     // call the function to register

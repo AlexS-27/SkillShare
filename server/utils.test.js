@@ -6,40 +6,47 @@ describe('isPasswordStrong', () => {
     test('tooShort',() => {
         expect(isPasswordStrong('123Ab')).toEqual([
             false,
-            "Password must be at least 8 characters long"
+            "Password must be at least 10 characters long"
+        ]);
+    });
+
+    test('tooLong',() => {
+        expect(isPasswordStrong('123Ab1234567890qwerty')).toEqual([
+            false,
+            "Password can't be more than 20 characters long"
         ]);
     });
 
     test('atLeastOneUpperCase',() => {
-        expect(isPasswordStrong('password')).toEqual([
+        expect(isPasswordStrong('passwordhd')).toEqual([
             false,
             "Password must contain at least one uppercase letter"
         ]);
     });
 
     test('atLeastOneLowerCase',() => {
-        expect(isPasswordStrong('PASSWORD')).toEqual([
+        expect(isPasswordStrong('PASSWORDHD')).toEqual([
             false,
             "Password must contain at least one lowercase letter"
         ]);
     });
 
     test('atLeastOneDigit', () => {
-        expect(isPasswordStrong('Password')).toEqual([
+        expect(isPasswordStrong('PasswordHd')).toEqual([
             false,
             "Password must contain at least one number"
         ]);
     });
 
     test('atLeastOneSpecialCharacter',() => {
-        expect(isPasswordStrong('Password8')).toEqual([
+        expect(isPasswordStrong('Password8Hd')).toEqual([
             false,
             "Password must contain at least one special character"
         ]);
     });
 
     test('goodPassword',() => {
-        expect(isPasswordStrong('Pa$$w0rd8')).toEqual([
+        expect(isPasswordStrong('Pa$$w0rd8Hd')).toEqual([
             true,
             "Password is valid"
         ]);

@@ -31,14 +31,26 @@ export const register = async (name, password) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     try {
-        const { data, error } = await supabase
+        const { data:existingUser, error:checkError } = await supabase
+            .from('users')
+            .select('username')
+            .eq('username', name)
+            .maybeSingle() // get the object or a null without any errors
+
+        if (checkError) throw checkError;
+
+        if (existingUser) {
+            return { success: false, message: "Can't take this username" };
+        }
+
+        const { data, error:insertError } = await supabase
             .from('users') // indicate the table
             .insert([
                 { username: name, password: hashedPassword }
             ]) // give the data to the base
             .select();
 
-        if (error) throw error;
+        if (insertError) throw insertError;
 
         console.log("Account registered !");
         return { success: true, data: data };
@@ -75,8 +87,16 @@ export const login = async (name, password) => {
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (isMatch) {
+            // never resent the hash password to the user
+            delete user.password;
+            return { success: true, data: user };
+        } else {
+            return { success: false, message: "User or password incorrect" };
+        }
+
+        if (isMatch) {
             const token = jwt.sign(
-                { id: user.id_user, username: user.username },
+                { id: user.id_user, pseudo: user.username },
                 process.env.JWT_SECRET || 'ta_cle_secrete_super_secure',
                 { expiresIn: '24h' }
             );
