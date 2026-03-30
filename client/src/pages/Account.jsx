@@ -42,7 +42,7 @@ export default function Account() {
                         <User size={32} />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold">Bienvenue, {user.pseudo}</h2>
+                        <h2 className="text-xl font-bold">Bienvenue, {user.username}</h2>
                         <p className="text-sm text-gray-500">Membre de SkillShare</p>
                     </div>
                 </div>
@@ -51,7 +51,7 @@ export default function Account() {
                     <div className="flex flex-col gap-1">
                         <label className="text-sm font-semibold text-gray-600">Pseudo</label>
                         <div className="bg-gray-100 border border-transparent rounded-md p-3 text-gray-700">
-                            {user.pseudo}
+                            {user.username}
                         </div>
                     </div>
 
