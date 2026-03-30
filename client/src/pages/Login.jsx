@@ -23,7 +23,11 @@ export default function Login() {
             if (response.ok && data.success) {
                 // Stocker l'utilisateur (simplifié pour l'exemple)
                 localStorage.setItem('user', JSON.stringify(data.data));
-                navigate('/Account');
+
+                // Stocker le token renvoyé par le backend
+                localStorage.setItem('token', data.token);
+
+                navigate('/account'); // 'account' en minuscules (c'était Account avant)
             } else {
                 setError(data.message || 'Erreur de connexion');
             }

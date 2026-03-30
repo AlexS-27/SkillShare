@@ -4,10 +4,31 @@ import { User, LogOut } from 'lucide-react';
 export default function Account() {
     const navigate = useNavigate();
     // On récupère les infos depuis le localStorage
-    const user = JSON.parse(localStorage.getItem('user')) || { pseudo: 'Utilisateur inconnu', soldes: 0 };
+    const user = JSON.parse(localStorage.getItem('user')) || { pseudo: 'Utilisateur inconnu', balance: 0 }; // J'ai remplacé "soldes" par "balance" pour coller à la BDD
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        const token = localStorage.getItem('token');
+
+        // 1. Prévenir le serveur d'invalider le token s'il existe
+        if (token) {
+            try {
+                await fetch('http://localhost:3000/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+            } catch (error) {
+                console.error("Erreur lors de l'appel de déconnexion :", error);
+            }
+        }
+
+        // 2. Nettoyer tout le localStorage
         localStorage.removeItem('user');
+        localStorage.removeItem('token'); // <-- Le grand coupable était ici !
+
+        // 3. Rediriger
         navigate('/login');
     };
 
@@ -39,14 +60,14 @@ export default function Account() {
                             🔗 Balance de jetons
                         </label>
                         <div className="bg-gray-100 border border-transparent rounded-md p-3 text-gray-900 font-bold text-lg flex justify-between items-center">
-                            <span>{user.soldes || 150}</span>
+                            <span>{user.balance || 150}</span>
                             <span className="text-sm font-normal text-gray-500">jetons</span>
                         </div>
                     </div>
 
                     <button
                         onClick={handleLogout}
-                        className="w-full bg-[#d32f2f] text-white font-medium py-3 rounded-md flex justify-center items-center gap-2 hover:bg-red-800 transition-colors"
+                        className="w-full bg-[#d32f2f] text-white font-medium py-3 rounded-md flex justify-center items-center gap-2 hover:bg-red-800 transition-colors cursor-pointer"
                     >
                         <LogOut size={18} />
                         Se déconnecter

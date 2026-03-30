@@ -10,6 +10,7 @@ Date : 6 Mars 2026
 import 'dotenv/config'; // Raccourci moderne pour require('dotenv').config()
 import { createClient } from '@supabase/supabase-js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'; // Ajout de l'import jwt manquant
 
 // Connexion to Supabase
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -98,8 +99,11 @@ export const login = async (name, password) => {
                 { expiresIn: '24h' }
             );
 
+            // Never resent the hash password to the user
             delete user.password;
             return { success: true, data: user, token: token };
+        } else {
+            return { success: false, message: "User or password incorrect" };
         }
 
     } catch (err) {
@@ -157,7 +161,7 @@ export const purchaseService = async (buyerId, serviceId) => {
 
         // debit the buyer
         const { error: debitError } = await supabase
-            .from('utilisateurs')
+            .from('users')
             .update({ balance: buyer.balance - service.price })
             .eq('id_user', buyerId);
 
@@ -169,7 +173,7 @@ export const purchaseService = async (buyerId, serviceId) => {
         // credit the seller
         // fetch the seller's current balance
         const { data: seller, error: sellerFetchError } = await supabase
-            .from('utilisateurs')
+            .from('users')
             .select('balance')
             .eq('id_user', service.id_seller)
             .single();
@@ -177,7 +181,7 @@ export const purchaseService = async (buyerId, serviceId) => {
         if (sellerFetchError || !seller) {
             // attempts to refund the buyer before returning the error
             await supabase
-                .from('utilisateurs')
+                .from('users')
                 .update({ balance: buyer.balance })
                 .eq('id_user', buyerId);
 
@@ -185,14 +189,14 @@ export const purchaseService = async (buyerId, serviceId) => {
         }
 
         const { error: creditError } = await supabase
-            .from('utilisateurs')
+            .from('users')
             .update({ balance: seller.balance + service.price })
             .eq('id_user', service.id_seller);
 
         if (creditError) {
             // attempts to refund the buyer
             await supabase
-                .from('utilisateurs')
+                .from('users')
                 .update({ balance: buyer.balance })
                 .eq('id_user', buyerId);
 
