@@ -13,7 +13,7 @@ import rateLimit from 'express-rate-limit';
 
 // Importation de tes fichiers locaux (N'oublie jamais l'extension .js !)
 import { register, login, purchaseService } from '../db_manager.js';
-import { isPasswordStrong } from '../utils.js';
+import {isPasswordStrong, isUsernameSafe} from '../utils.js';
 
 const app = express(); // Initialisation correcte d'express
 
@@ -48,9 +48,15 @@ app.post('/register', async (req, res) => {
     const { name, password } = req.body;
 
     // 1. Security validation for the password
-    const [isValid, message] = isPasswordStrong(password);
-    if (!isValid) {
-        return res.status(400).json({ success: false, message: message });
+    const [isPasswordValid, passwordMessage] = isPasswordStrong(password);
+    if (!isPasswordValid) {
+        return res.status(400).json({ success: false, message: passwordMessage });
+    }
+
+    // 2. Security validation for the username
+    const [isUsernameValid, usernameMessage] = isUsernameSafe(name);
+    if (!isUsernameValid) {
+        return res.status(400).json({ success: false, message: usernameMessage });
     }
 
     // Call the function to register

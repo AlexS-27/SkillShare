@@ -20,9 +20,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  * @returns {[boolean, string]} Un tableau contenant le statut et le message.
  */
 export function isPasswordStrong(password) {
-    // Check the length
-    if (password.length < 8) {
-        return [false, "Password must be at least 8 characters long"];
+    // Check the length <10
+    if (password.length < 10) {
+        return [false, "Password must be at least 10 characters long"];
+    }
+    // Check the lenght 20<
+    if (password.length > 20) {
+        return [false, "Password can't be more than 20 characters long"];
     }
 
     // Check the upper case

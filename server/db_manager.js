@@ -29,14 +29,26 @@ export const register = async (name, password) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     try {
-        const { data, error } = await supabase
-            .from('utilisateurs') // Indicate the table
+        const { data:existingUser, error:checkError } = await supabase
+            .from('users')
+            .select('username')
+            .eq('username', name)
+            .maybeSingle() // Get the an object or a null without any errors
+
+        if (checkError) throw checkError;
+
+        if (existingUser) {
+            return { success: false, message: "Can't take this username" };
+        }
+
+        const { data, error:insertError } = await supabase
+            .from('users') // Indicate the table
             .insert([
-                { pseudo: name, password: hashedPassword }
+                { username: name, password: hashedPassword }
             ]) // Give the data to the base
             .select();
 
-        if (error) throw error;
+        if (insertError) throw insertError;
 
         console.log("Account registered !");
         return { success: true, data: data };
@@ -58,9 +70,9 @@ export const login = async (name, password) => {
     try {
         // 1.  Get the user in the supabase by his name
         const { data: user, error } = await supabase
-            .from('utilisateurs')
+            .from('users')
             .select('*')
-            .eq('pseudo', name)
+            .eq('username', name)
             .single(); // Get one object
 
         if (error || !user) {
@@ -81,7 +93,7 @@ export const login = async (name, password) => {
 
         if (isMatch) {
             const token = jwt.sign(
-                { id: user.id_user, pseudo: user.pseudo },
+                { id: user.id_user, pseudo: user.username },
                 process.env.JWT_SECRET || 'ta_cle_secrete_super_secure',
                 { expiresIn: '24h' }
             );
@@ -127,8 +139,8 @@ export const purchaseService = async (buyerId, serviceId) => {
 
         // fetch buyer's balance
         const { data: buyer, error: buyerError } = await supabase
-            .from('utilisateurs')
-            .select('id_user, pseudo, balance')
+            .from('users')
+            .select('id_user, username, balance')
             .eq('id_user', buyerId)
             .single();
 

@@ -6,7 +6,14 @@ describe('isPasswordStrong', () => {
     test('tooShort',() => {
         expect(isPasswordStrong('123Ab')).toEqual([
             false,
-            "Password must be at least 8 characters long"
+            "Password must be at least 10 characters long"
+        ]);
+    });
+
+    test('tooLong',() => {
+        expect(isPasswordStrong('123Ab1234567890qwerty')).toEqual([
+            false,
+            "Password can't be more than 20 characters long"
         ]);
     });
 
