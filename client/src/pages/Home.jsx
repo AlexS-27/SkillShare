@@ -22,15 +22,24 @@ export default function Home() {
             return;
         }
 
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert("Session expirée, veuillez vous reconnecter.");
+            navigate('/login');
+            return;
+        }
+
         const user = JSON.parse(userString);
         const buyerId = user.id_user; // On récupère l'ID de l'acheteur
 
         // 2. Appel à l'API
         try {
-            const response = await fetch('http://localhost:3000/api/purchase', {
+            const response = await fetch('/api/purchase', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    // FIX : token ajouté dans le header Authorization
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     buyerId: buyerId,

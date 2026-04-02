@@ -44,7 +44,7 @@ export default function Header() {
                 <Link to={user ? "/account" : "/login"} className="flex items-center gap-2 hover:text-gray-300 transition-colors">
                     <User size={24} />
                     {user ? (
-                        <span className="text-sm hidden sm:block">{user.pseudo}</span>
+                        <span className="text-sm hidden sm:block">{user.username}</span>
                     ) : (
                         <span className="text-sm hidden sm:block">Se connecter</span>
                     )}
