@@ -6,14 +6,15 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
     globalIgnores(['dist']),
-    // 1. Add the base recommended configs as standalone objects in the array
+
+    // 1. Add the base JS recommended config
     js.configs.recommended,
-    reactHooks.configs.recommended,
 
     // 2. Your custom project configuration
     {
         files: ['**/*.{js,jsx}'],
         plugins: {
+            // Map the plugin objects to namespaces
             'react-hooks': reactHooks,
             'react-refresh': reactRefresh,
         },
@@ -27,8 +28,9 @@ export default defineConfig([
             },
         },
         rules: {
-            // Pull in the specific rules from plugins if not already covered
+            // Spread the rules only, NOT the whole config object
             ...reactHooks.configs.recommended.rules,
+
             'react-refresh/only-export-components': [
                 'warn',
                 { allowConstantExport: true },
